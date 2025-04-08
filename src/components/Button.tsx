@@ -18,9 +18,9 @@ const Button: React.FC<ButtonProps> = ({
     <button
       className={cn(
         'font-medium py-3 px-6 rounded-lg transition-all transform hover:scale-105',
-        variant === 'primary' ? 'bg-accent text-primary hover:opacity-90' : 
-        variant === 'secondary' ? 'bg-white/10 backdrop-blur-sm text-white border border-white/20 hover:bg-white/20' : 
-        'border border-white/20 bg-transparent text-white hover:bg-white/10',
+        variant === 'primary' ? 'bg-primary text-accent border-2 border-accent hover:bg-primary/90' : 
+        variant === 'secondary' ? 'bg-accent text-primary hover:opacity-90' : 
+        'border-2 border-accent bg-transparent text-accent hover:bg-white/10',
         className
       )}
       {...props}

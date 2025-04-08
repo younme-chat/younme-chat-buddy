@@ -10,11 +10,13 @@ const Logo: React.FC<{ size?: 'small' | 'medium' | 'large' }> = ({ size = 'mediu
 
   return (
     <div className={`${sizeClasses[size]}`}>
-      <img 
-        src="/lovable-uploads/90d4a3d1-6455-4ff1-af24-ce4459b38a04.png" 
-        alt="Logo" 
-        className="h-full" 
-      />
+      <h1 className="text-white text-4xl md:text-6xl font-bold">
+        <span>y</span>
+        <span className="text-accent">ou</span>
+        <span>n</span>
+        <span className="text-accent">m</span>
+        <span>e</span>
+      </h1>
     </div>
   );
 };
