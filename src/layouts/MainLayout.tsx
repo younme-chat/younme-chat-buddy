@@ -9,10 +9,10 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col relative">
+    <div className="h-screen flex flex-col relative overflow-hidden">
       <AnimatedBackground />
       <main className="flex-grow relative z-10">{children}</main>
-      <Footer />
+      <Footer className="relative z-10" />
     </div>
   );
 };

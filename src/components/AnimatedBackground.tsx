@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Heart } from 'lucide-react';
 
 const AnimatedBackground: React.FC = () => {
   return (
@@ -7,20 +8,21 @@ const AnimatedBackground: React.FC = () => {
       {/* Animated gradient background */}
       <div className="absolute inset-0 bg-primary opacity-80"></div>
       
-      {/* Animated floating bubbles */}
-      {Array.from({ length: 10 }).map((_, i) => (
+      {/* Animated floating hearts */}
+      {Array.from({ length: 15 }).map((_, i) => (
         <div 
           key={i}
-          className="absolute rounded-full bg-accent/20 animate-float"
+          className="absolute text-accent/30 animate-float"
           style={{
-            width: `${Math.random() * 100 + 50}px`,
-            height: `${Math.random() * 100 + 50}px`,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
             animationDuration: `${Math.random() * 10 + 10}s`,
             animationDelay: `${Math.random() * 5}s`,
+            transform: `rotate(${Math.random() * 360}deg) scale(${Math.random() * 0.5 + 0.5})`,
           }}
-        ></div>
+        >
+          <Heart size={Math.random() * 30 + 20} fill="currentColor" />
+        </div>
       ))}
       
       {/* Light streaks */}

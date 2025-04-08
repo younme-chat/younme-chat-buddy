@@ -1,12 +1,11 @@
 
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogFooter } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Button from './Button';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UserRound, Users, Brain, Brush } from 'lucide-react';
+import { UserRound, Users, Brain, Brush, Heart, Star } from 'lucide-react';
 
 interface CustomizationModalProps {
   open: boolean;
@@ -23,6 +22,7 @@ type StepType = {
 
 const CustomizationModal: React.FC<CustomizationModalProps> = ({ open, onClose, onComplete }) => {
   const [formData, setFormData] = useState({
+    partnerName: '',
     gender: '',
     ethnicity: '',
     hairColor: '',
@@ -64,6 +64,24 @@ const CustomizationModal: React.FC<CustomizationModalProps> = ({ open, onClose, 
 
   const steps: StepType[] = [
     {
+      id: 'name',
+      icon: <Heart className="h-6 w-6 text-accent" />,
+      title: "What would you like to name your partner?",
+      component: (
+        <div className="py-8 flex flex-col items-center">
+          <Input
+            placeholder="Enter a name"
+            value={formData.partnerName}
+            onChange={(e) => setFormData({...formData, partnerName: e.target.value})}
+            className="input-field max-w-xs text-center text-xl"
+          />
+          <div className="mt-12">
+            <Button onClick={nextStep}>Continue</Button>
+          </div>
+        </div>
+      )
+    },
+    {
       id: 'gender',
       icon: <UserRound className="h-6 w-6 text-accent" />,
       title: "Who would you like to talk to?",
@@ -78,7 +96,7 @@ const CustomizationModal: React.FC<CustomizationModalProps> = ({ open, onClose, 
               setTimeout(nextStep, 500);
             }}
           >
-            <span className="text-4xl">👩</span>
+            <UserRound size={32} />
             <span className="mt-2">Female</span>
           </button>
           <button 
@@ -90,7 +108,7 @@ const CustomizationModal: React.FC<CustomizationModalProps> = ({ open, onClose, 
               setTimeout(nextStep, 500);
             }}
           >
-            <span className="text-4xl">👨</span>
+            <UserRound size={32} />
             <span className="mt-2">Male</span>
           </button>
           <button 
@@ -102,7 +120,7 @@ const CustomizationModal: React.FC<CustomizationModalProps> = ({ open, onClose, 
               setTimeout(nextStep, 500);
             }}
           >
-            <span className="text-4xl">🧑</span>
+            <UserRound size={32} />
             <span className="mt-2">Non-binary</span>
           </button>
         </div>
@@ -140,10 +158,10 @@ const CustomizationModal: React.FC<CustomizationModalProps> = ({ open, onClose, 
           <p className="text-sm text-white/70 mb-4">Select all that apply</p>
           <div className="grid grid-cols-2 gap-4">
             {[
-              { id: 'romantic', label: 'Romantic', emoji: '❤️' },
-              { id: 'shy', label: 'Shy', emoji: '🙈' },
-              { id: 'playful', label: 'Playful', emoji: '😋' },
-              { id: 'dominant', label: 'Confident', emoji: '💪' }
+              { id: 'romantic', label: 'Romantic', icon: <Heart className="h-6 w-6" /> },
+              { id: 'shy', label: 'Shy', icon: <Star className="h-6 w-6" /> },
+              { id: 'playful', label: 'Playful', icon: <Star className="h-6 w-6 rotate-45" /> },
+              { id: 'dominant', label: 'Confident', icon: <Star className="h-6 w-6 -rotate-45" /> }
             ].map((trait) => (
               <button 
                 key={trait.id}
@@ -152,7 +170,7 @@ const CustomizationModal: React.FC<CustomizationModalProps> = ({ open, onClose, 
                 }`}
                 onClick={() => handleCheckboxChange(trait.id as keyof typeof formData.personality)}
               >
-                <span className="text-2xl">{trait.emoji}</span>
+                {trait.icon}
                 <span className="mt-2">{trait.label}</span>
               </button>
             ))}
@@ -169,13 +187,13 @@ const CustomizationModal: React.FC<CustomizationModalProps> = ({ open, onClose, 
       title: "Customize appearance",
       component: (
         <div className="space-y-6 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="hairColor">Hair Color</Label>
-            <div className="grid grid-cols-3 gap-2">
+          <div className="space-y-4">
+            <Label htmlFor="hairColor" className="text-center block text-lg">Hair Color</Label>
+            <div className="grid grid-cols-3 gap-3">
               {['Blonde', 'Brown', 'Black', 'Red', 'Colorful'].map((color) => (
                 <button 
                   key={color}
-                  className={`p-2 rounded-lg flex items-center justify-center h-12 transition-all ${
+                  className={`p-3 rounded-lg flex items-center justify-center h-14 transition-all ${
                     formData.hairColor === color.toLowerCase() ? 'bg-accent text-primary' : 'bg-white/10 hover:bg-white/20'
                   }`}
                   onClick={() => setFormData({...formData, hairColor: color.toLowerCase()})}
@@ -186,13 +204,13 @@ const CustomizationModal: React.FC<CustomizationModalProps> = ({ open, onClose, 
             </div>
           </div>
           
-          <div className="space-y-2">
-            <Label htmlFor="bodyType">Body Type</Label>
-            <div className="grid grid-cols-2 gap-2">
+          <div className="space-y-4">
+            <Label htmlFor="bodyType" className="text-center block text-lg">Body Type</Label>
+            <div className="grid grid-cols-2 gap-3">
               {['Slim', 'Athletic', 'Curvy', 'Plus Size'].map((type) => (
                 <button 
                   key={type}
-                  className={`p-2 rounded-lg flex items-center justify-center h-12 transition-all ${
+                  className={`p-3 rounded-lg flex items-center justify-center h-14 transition-all ${
                     formData.bodyType === type.toLowerCase() ? 'bg-accent text-primary' : 'bg-white/10 hover:bg-white/20'
                   }`}
                   onClick={() => setFormData({...formData, bodyType: type.toLowerCase()})}
@@ -203,13 +221,13 @@ const CustomizationModal: React.FC<CustomizationModalProps> = ({ open, onClose, 
             </div>
           </div>
           
-          <div className="space-y-2">
-            <Label htmlFor="style">Style</Label>
-            <div className="grid grid-cols-2 gap-2">
+          <div className="space-y-4">
+            <Label htmlFor="style" className="text-center block text-lg">Style</Label>
+            <div className="grid grid-cols-2 gap-3">
               {['Casual', 'Professional', 'Elegant', 'Alternative', 'Sporty'].map((style) => (
                 <button 
                   key={style}
-                  className={`p-2 rounded-lg flex items-center justify-center h-12 transition-all ${
+                  className={`p-3 rounded-lg flex items-center justify-center h-14 transition-all ${
                     formData.style === style.toLowerCase() ? 'bg-accent text-primary' : 'bg-white/10 hover:bg-white/20'
                   }`}
                   onClick={() => setFormData({...formData, style: style.toLowerCase()})}
