@@ -1,10 +1,15 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  className?: string;
+}
+
+const Footer: React.FC<FooterProps> = ({ className }) => {
   return (
-    <footer className="p-4 text-center text-white/80 text-sm">
+    <footer className={cn("p-4 text-center text-white/80 text-sm", className)}>
       <div className="flex justify-center space-x-4">
         <Link to="/about" className="hover:text-accent transition-colors">About</Link>
         <span>|</span>
