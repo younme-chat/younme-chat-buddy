@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { SendIcon, ImageIcon, AlertTriangleIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { toast } from 'sonner';
+import AnimatedBackground from '../components/AnimatedBackground';
 
 // Define message type
 interface Message {
@@ -139,8 +140,11 @@ const ChatPage: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen">
+      {/* Background */}
+      <AnimatedBackground />
+      
       {/* Header */}
-      <header className="bg-primary border-b border-white/20 p-3 flex justify-between items-center">
+      <header className="bg-primary/80 backdrop-blur-md border-b border-white/20 p-3 flex justify-between items-center relative z-10">
         <Logo size="small" />
         <div className="text-white/80 text-sm">
           {remainingMessages}/{MAX_FREE_MESSAGES} messages left
@@ -148,36 +152,12 @@ const ChatPage: React.FC = () => {
       </header>
       
       {/* Chat Container */}
-      <div className="flex flex-grow overflow-hidden">
-        {/* Avatar Panel */}
-        <div className="hidden md:block w-1/3 bg-primary border-r border-white/20 p-4 flex flex-col items-center justify-center">
-          <Avatar className="w-48 h-48 border-2 border-accent">
-            <div className="w-full h-full flex items-center justify-center bg-primary-foreground/10 text-accent text-4xl font-bold">
-              AI
-            </div>
-          </Avatar>
-          <div className="mt-4 text-center">
-            <h3 className="text-white text-xl font-medium">Your AI Partner</h3>
-            <p className="text-white/70 mt-2">Customized just for you</p>
-          </div>
-          
-          <div className="mt-8">
-            <button 
-              onClick={handleRequestImage}
-              className="flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-all"
-              disabled={imagesRequested >= MAX_IMAGES}
-            >
-              <ImageIcon size={18} />
-              <span>Request Image ({imagesRequested}/{MAX_IMAGES})</span>
-            </button>
-          </div>
-        </div>
-        
+      <div className="flex flex-grow overflow-hidden relative z-10">
         {/* Chat Panel */}
         <div className="flex-1 flex flex-col">
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4">
-            <div className="space-y-4">
+            <div className="space-y-4 max-w-3xl mx-auto">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -185,11 +165,18 @@ const ChatPage: React.FC = () => {
                     message.isUser ? "justify-end" : "justify-start"
                   }`}
                 >
+                  {!message.isUser && (
+                    <Avatar className="h-8 w-8 mr-2">
+                      <div className="w-full h-full flex items-center justify-center bg-accent text-primary text-sm font-bold">
+                        P
+                      </div>
+                    </Avatar>
+                  )}
                   <div
-                    className={`max-w-[80%] rounded-lg p-3 ${
+                    className={`max-w-[80%] rounded-2xl p-3 ${
                       message.isUser
                         ? "bg-accent text-primary"
-                        : "bg-white/10 text-white"
+                        : "bg-white/10 backdrop-blur-md text-white"
                     }`}
                   >
                     <p>{message.text}</p>
@@ -204,11 +191,23 @@ const ChatPage: React.FC = () => {
                       })}
                     </div>
                   </div>
+                  {message.isUser && (
+                    <Avatar className="h-8 w-8 ml-2">
+                      <div className="w-full h-full flex items-center justify-center bg-primary-foreground/10 text-white text-sm font-bold">
+                        U
+                      </div>
+                    </Avatar>
+                  )}
                 </div>
               ))}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-white/10 text-white/70 rounded-lg p-3 max-w-[80%]">
+                  <Avatar className="h-8 w-8 mr-2">
+                    <div className="w-full h-full flex items-center justify-center bg-accent text-primary text-sm font-bold">
+                      P
+                    </div>
+                  </Avatar>
+                  <div className="bg-white/10 backdrop-blur-md text-white/70 rounded-2xl p-3 max-w-[80%]">
                     <div className="flex space-x-1">
                       <div className="h-2 w-2 bg-white/70 rounded-full animate-pulse"></div>
                       <div className="h-2 w-2 bg-white/70 rounded-full animate-pulse delay-100"></div>
@@ -221,8 +220,8 @@ const ChatPage: React.FC = () => {
             </div>
           </div>
           
-          {/* Mobile image request button */}
-          <div className="md:hidden flex justify-center p-2 border-t border-white/20">
+          {/* Image request button */}
+          <div className="flex justify-center p-2 border-t border-white/20">
             <button 
               onClick={handleRequestImage}
               className="flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white py-1.5 px-3 rounded-lg text-sm"
@@ -235,12 +234,12 @@ const ChatPage: React.FC = () => {
           
           {/* Input */}
           <div className="p-4 border-t border-white/20">
-            <form onSubmit={handleSendMessage} className="flex space-x-2">
+            <form onSubmit={handleSendMessage} className="flex space-x-2 max-w-3xl mx-auto">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type a message..."
-                className="input-field flex-1"
+                className="backdrop-blur-md bg-white/10 border-white/20 text-white placeholder:text-white/50 flex-1"
               />
               <Button 
                 type="submit" 
@@ -254,7 +253,7 @@ const ChatPage: React.FC = () => {
       </div>
       
       {/* Session warning button */}
-      <div className="fixed bottom-4 right-4">
+      <div className="fixed bottom-4 right-4 z-20">
         <button
           onClick={() => setShowLeaveWarning(true)}
           className="bg-destructive/80 text-white p-2 rounded-full hover:bg-destructive transition-colors"
