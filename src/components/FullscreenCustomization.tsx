@@ -90,7 +90,7 @@ const FullscreenCustomization: React.FC<FullscreenCustomizationProps> = ({
             placeholder="Enter a name"
             value={formData.partnerName}
             onChange={(e) => setFormData({...formData, partnerName: e.target.value})}
-            className="input-field text-center text-xl mb-12 py-6"
+            className="input-field text-center text-xl mb-12 py-6 bg-transparent border-accent/50 focus:border-accent"
           />
           <Button 
             onClick={() => nextStep('gender')}
@@ -203,7 +203,7 @@ const FullscreenCustomization: React.FC<FullscreenCustomizationProps> = ({
           </div>
           <div className="flex justify-center mt-12">
             <Button 
-              onClick={() => nextStep('appearance')}
+              onClick={() => nextStep('hairColor')}
               className="px-8 py-6 text-lg"
             >
               Continue
@@ -212,70 +212,85 @@ const FullscreenCustomization: React.FC<FullscreenCustomizationProps> = ({
         </div>
       )
     },
-    appearance: {
-      id: 'appearance',
+    hairColor: {
+      id: 'hairColor',
       icon: <Brush className="h-8 w-8 text-accent" />,
-      title: "Customize appearance",
+      title: "Select hair color",
       component: (
         <div className="space-y-12 w-full max-w-3xl mx-auto">
-          <div className="space-y-4">
-            <Label className="text-center block text-xl mb-6">Hair Color</Label>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {['Blonde', 'Brown', 'Black', 'Red', 'Colorful'].map((color) => (
-                <button 
-                  key={color}
-                  className={`p-4 rounded-lg flex items-center justify-center h-16 transition-all ${
-                    formData.hairColor === color.toLowerCase() ? 'bg-accent text-primary' : 'bg-white/10 hover:bg-white/20'
-                  }`}
-                  onClick={() => setFormData({...formData, hairColor: color.toLowerCase()})}
-                >
-                  <span className="text-lg">{color}</span>
-                  {formData.hairColor === color.toLowerCase() && (
-                    <Check className="ml-2 h-5 w-5" />
-                  )}
-                </button>
-              ))}
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {['Blonde', 'Brown', 'Black', 'Red', 'Colorful'].map((color) => (
+              <button 
+                key={color}
+                className={`p-8 rounded-lg flex items-center justify-center h-20 transition-all ${
+                  formData.hairColor === color.toLowerCase() ? 'bg-accent text-primary' : 'bg-white/10 hover:bg-white/20'
+                }`}
+                onClick={() => {
+                  setFormData({...formData, hairColor: color.toLowerCase()});
+                  setTimeout(() => nextStep('bodyType'), 300);
+                }}
+              >
+                <span className="text-xl">{color}</span>
+                {formData.hairColor === color.toLowerCase() && (
+                  <Check className="ml-2 h-5 w-5" />
+                )}
+              </button>
+            ))}
           </div>
-          
-          <div className="space-y-4">
-            <Label className="text-center block text-xl mb-6">Body Type</Label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {['Slim', 'Athletic', 'Curvy', 'Plus Size'].map((type) => (
-                <button 
-                  key={type}
-                  className={`p-4 rounded-lg flex items-center justify-center h-16 transition-all ${
-                    formData.bodyType === type.toLowerCase() ? 'bg-accent text-primary' : 'bg-white/10 hover:bg-white/20'
-                  }`}
-                  onClick={() => setFormData({...formData, bodyType: type.toLowerCase()})}
-                >
-                  <span className="text-lg">{type}</span>
-                  {formData.bodyType === type.toLowerCase() && (
-                    <Check className="ml-2 h-5 w-5" />
-                  )}
-                </button>
-              ))}
-            </div>
+        </div>
+      )
+    },
+    bodyType: {
+      id: 'bodyType',
+      icon: <Brush className="h-8 w-8 text-accent" />,
+      title: "Select body type",
+      component: (
+        <div className="space-y-12 w-full max-w-3xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {['Slim', 'Athletic', 'Curvy', 'Plus Size'].map((type) => (
+              <button 
+                key={type}
+                className={`p-8 rounded-lg flex items-center justify-center h-20 transition-all ${
+                  formData.bodyType === type.toLowerCase() ? 'bg-accent text-primary' : 'bg-white/10 hover:bg-white/20'
+                }`}
+                onClick={() => {
+                  setFormData({...formData, bodyType: type.toLowerCase()});
+                  setTimeout(() => nextStep('style'), 300);
+                }}
+              >
+                <span className="text-xl">{type}</span>
+                {formData.bodyType === type.toLowerCase() && (
+                  <Check className="ml-2 h-5 w-5" />
+                )}
+              </button>
+            ))}
           </div>
-          
-          <div className="space-y-4">
-            <Label className="text-center block text-xl mb-6">Style</Label>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {['Casual', 'Professional', 'Elegant', 'Alternative', 'Sporty'].map((style) => (
-                <button 
-                  key={style}
-                  className={`p-4 rounded-lg flex items-center justify-center h-16 transition-all ${
-                    formData.style === style.toLowerCase() ? 'bg-accent text-primary' : 'bg-white/10 hover:bg-white/20'
-                  }`}
-                  onClick={() => setFormData({...formData, style: style.toLowerCase()})}
-                >
-                  <span className="text-lg">{style}</span>
-                  {formData.style === style.toLowerCase() && (
-                    <Check className="ml-2 h-5 w-5" />
-                  )}
-                </button>
-              ))}
-            </div>
+        </div>
+      )
+    },
+    style: {
+      id: 'style',
+      icon: <Brush className="h-8 w-8 text-accent" />,
+      title: "Select style",
+      component: (
+        <div className="space-y-12 w-full max-w-3xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {['Casual', 'Professional', 'Elegant', 'Alternative', 'Sporty'].map((style) => (
+              <button 
+                key={style}
+                className={`p-8 rounded-lg flex items-center justify-center h-20 transition-all ${
+                  formData.style === style.toLowerCase() ? 'bg-accent text-primary' : 'bg-white/10 hover:bg-white/20'
+                }`}
+                onClick={() => {
+                  setFormData({...formData, style: style.toLowerCase()});
+                }}
+              >
+                <span className="text-xl">{style}</span>
+                {formData.style === style.toLowerCase() && (
+                  <Check className="ml-2 h-5 w-5" />
+                )}
+              </button>
+            ))}
           </div>
           
           <div className="flex justify-center mt-8">

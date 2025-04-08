@@ -50,9 +50,9 @@ const LandingPage: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               <div className="bg-accent rounded-3xl p-8 flex items-center justify-center">
                 <Button 
-                  variant="primary" 
+                  variant="secondary" 
                   onClick={handleStartChat}
-                  className="w-full text-xl font-bold py-6"
+                  className="w-full text-xl font-bold py-6 bg-accent text-primary hover:opacity-90"
                 >
                   START CHATTING
                 </Button>
